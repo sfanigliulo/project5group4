@@ -46,7 +46,7 @@ def main():
 			done = False
 			obs = env.reset()  
 			
-			render = False
+			render = True
 
 			while not done:  
 				

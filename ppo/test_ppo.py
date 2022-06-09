@@ -37,11 +37,11 @@ def main():
 	for episode in range(args.episodes):
 		done = False
 		train_reward = 0
-		obs = env.reset()  # Reset the environment and observe the initial state
+		obs = env.reset()
 		test_reward = 0
-		render = False
+		render = True
 
-		while not done:  # Loop until the episode is over
+		while not done:
 			action, _states = model.predict(obs, deterministic=True)
 			obs, reward, done, info = env.step(action)		
 			
