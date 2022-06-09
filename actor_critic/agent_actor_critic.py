@@ -143,7 +143,6 @@ class Agent(object):
     def get_action(self, state, evaluation=False):
         x = torch.from_numpy(state).float().to(self.train_device)
 
-        # SOFIA - I modified from normal_dist = self.policy(x) to this because we need normal_dist and it doesn't work with the former command
         normal_dist = self.actor.forward(x)
 
         if evaluation:  # Return mean
