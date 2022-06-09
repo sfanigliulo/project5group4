@@ -3,7 +3,7 @@ import gym
 import argparse
 
 from env.custom_hopper import *
-from tentativo_ac import Actor, Critic, Agent
+from agent_actor_critic import Actor, Critic, Agent
 from sklearn.model_selection import ParameterGrid
 
 def parse_args():
