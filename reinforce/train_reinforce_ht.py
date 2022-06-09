@@ -19,13 +19,12 @@ args = parse_args()
 def main():
 	max_return = 0
 	best_config = {}
-	exp_alpha = np.linspace(5, 15, 6)
-	
-	# Setting the parametrs for the hyperparameters tuning
+	exp_alpha = np.linspace(5, 15, 3)
+
 	params = {
 	    "alpha" : 2**-exp_alpha,
-	    "baseline" : np.linspace(0.001, 0.01, 5),
-	    "n_episodes" : [5000, 10000, 60000]
+	    "baseline" : np.linspace(0.001, 0.01, 3),
+	    "n_episodes" : [5000, 10000, 50000]
 	}
 	
 	# Comment or uncomment the environment on which you want to train the model
