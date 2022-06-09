@@ -40,6 +40,8 @@ def main():
 
 	for config in ParameterGrid(params):
 		
+		print(config)
+		
 		# Training the model, based on a particular configuration of hyperparameters	    
 		policy = Policy(observation_space_dim, action_space_dim)
 		agent = Agent(policy, config.get("alpha"), config.get("baseline"), device=args.device)
