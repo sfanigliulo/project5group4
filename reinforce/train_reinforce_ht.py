@@ -9,6 +9,7 @@ from sklearn.model_selection import ParameterGrid
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--episodes', default=50, type=int, help='Number of training episodes')
     parser.add_argument('--device', default='cpu', type=str, help='network device [cpu, cuda]')
 
     return parser.parse_args()
@@ -43,7 +44,7 @@ def main():
 		# Training the model, based on a particular configuration of hyperparameters	    
 		policy = Policy(observation_space_dim, action_space_dim)
 		agent = Agent(policy, config.get("alpha"), config.get("baseline"), device=args.device)
-		tot_return = 0
+		tot_reward = 0
 
 		for episode in range(config.get("n_episodes")):
 
@@ -58,15 +59,34 @@ def main():
 				agent.store_outcome(previous_state, state, action_probabilities, reward, done)
 				train_reward += reward
 				agent.update_policy()
-			tot_return = tot_return + train_reward
 		
-		print(config,tot_return/config.get("n_episodes"))
+		# Testing the model trained
+		for episode in range(args.episodes):
+			done = False
+			test_reward = 0
+			state = env.reset()
+			render = False
+
+			while not done:
+
+				action, _ = agent.get_action(state, evaluation=True)
+
+				state, reward, done, info = env.step(action.detach().cpu().numpy())
+
+				if render:
+				    env.render()
+
+				test_reward += reward
+
+			tot_reward +=test_reward
+		
+		print(f"Average Return: {tot_reward/args.episodes}")
 		
 		# Selection of the best hyperparameters configuration
-		if tot_return/config.get("n_episodes") > max_return:
-			max_return = tot_return/config.get("n_episodes")
+		if tot_reward/args.episodes > max_return:
+			max_return = tot_reward/args.episodes
 			best_config = config
-			
+		    	
 	print("Best configuration: ", best_config)
 	    
 	# Training the model based on the best configuration of hyperparameters	
