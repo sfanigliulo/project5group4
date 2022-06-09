@@ -19,9 +19,10 @@ args = parse_args()
 
 
 def main():
-
-	#env = gym.make('CustomHopper-source-v0')
-	env = gym.make('CustomHopper-target-v0')
+	
+	# Comment or uncomment the environment on which you want to test the model
+	env = gym.make('CustomHopper-source-v0')
+	#env = gym.make('CustomHopper-target-v0')
 
 	print('Action space:', env.action_space)
 	print('State space:', env.observation_space)
@@ -34,10 +35,10 @@ def main():
 	policy.load_state_dict(torch.load(args.model), strict=True)
 
 	agent = Agent(policy, device=args.device)
-	#agent.policy.state_dict()
 	
 	tot_reward = 0
-
+	
+	# Test
 	for episode in range(args.episodes):
 	    done = False
 	    test_reward = 0

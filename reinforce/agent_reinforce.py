@@ -53,8 +53,6 @@ class Agent(object):
         self.train_device = device
         self.policy = policy.to(self.train_device)
         self.optimizer = torch.optim.Adam(policy.parameters(), lr=1e-3)
-        #Adam is an optimization algorithm that can be used to update
-        #network weights iterative based in training data.
         self.gamma = 0.99
         self.states = []
         self.next_states = []
@@ -66,7 +64,7 @@ class Agent(object):
 
 
     def update_policy(self):
-        # SOFIA - I commented .squeeze(-1) for action_log_probs because it gives me problem on the dimension of that tensor
+        # .squeeze(-1) is commented for action_log_probs because it provides problem on the dimension of that tensor
         action_log_probs = torch.stack(self.action_log_probs, dim=0).to(self.train_device)#.squeeze(-1)
         states = torch.stack(self.states, dim=0).to(self.train_device).squeeze(-1)
         next_states = torch.stack(self.next_states, dim=0).to(self.train_device).squeeze(-1)
@@ -80,11 +78,9 @@ class Agent(object):
         #             - compute gradients and step the optimizer
         #
         
-        ## REINFORCE algorithm from https://medium.com/@thechrisyoon/deriving-policy-gradients-and-implementing-reinforce-f887949bd63 -ELISA
-        # I have some problems with the baseline, how to "insert" it - ELISA
+        # Computation discounted rewards
         discounted_rewards = []
-        #BASELINE, any value is fine as long as it generates faster convergence - FRA
-        for t in range(len(rewards)): #to obtain discounted rewards
+        for t in range(len(rewards)): 
           Gt = 0 
           pw = 0
           for r in rewards[t:]:
@@ -92,18 +88,16 @@ class Agent(object):
             pw = pw + 1
             discounted_rewards.append(Gt - self.baseline)
         
-
-        
         discounted_rewards = torch.tensor(discounted_rewards)
-        #BASELINE through normalization - FRA
-        # SOFIA - The normalization of the discounted_rewards causes some problem when running the code
-        #discounted_rewards = (discounted_rewards - discounted_rewards.mean()) / (discounted_rewards.std()) # normalize discounted rewards
-
+	
+	# Computation policy gradient loss function
         policy_gradient = [] 
-        # SOFIA - Here there was "for action_log_probs, ..." but I think it was a grammar mistake and I changed it into "for action_log_prob, ..."
+
         for action_log_prob, Gt in zip(action_log_probs, discounted_rewards):
           policy_gradient.append(-action_log_prob * Gt)
           
+          
+	# Computation of the gradient and step the optimizier
         optimizer_reinforce = self.optimizer  
         optimizer_reinforce.zero_grad()
         policy_gradient = torch.stack(policy_gradient).sum()
@@ -121,7 +115,6 @@ class Agent(object):
     def get_action(self, state, evaluation=False):
         x = torch.from_numpy(state).float().to(self.train_device)
 
-        # SOFIA - I modified from normal_dist = self.policy(x) to this because we need normal_dist and it doesn't work with the former command
         normal_dist = self.policy.forward(x)
 
         if evaluation:  # Return mean

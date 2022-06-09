@@ -28,7 +28,7 @@ def main():
 	
 	print('State space:', train_env.observation_space)
 	print('Action space:', train_env.action_space)
-	print('Dynamics parameters:', train_env.get_parameters())
+	print('Starting dynamics parameters:', train_env.get_parameters())
 	
 	# Comment or uncomment the environment on which you want to test the TRPO model
 	# flag = 0 means that there will not be randomization

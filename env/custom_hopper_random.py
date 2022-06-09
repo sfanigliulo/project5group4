@@ -38,7 +38,8 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         TODO
         """
         # Retrieve the masses distribution from the .csv file
-        distributions = pd.read_csv("masse3.csv", header = None)
+        # Here we select masse1.csv because is the most promising
+        distributions = pd.read_csv("masse1.csv", header = None)
         max_min1 = distributions.iloc[0,:].tolist()
         max_min2 = distributions.iloc[1,:].tolist()
         max_min3 = distributions.iloc[2,:].tolist()
@@ -90,6 +91,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
 
     def reset_model(self):
         """Reset the environment to a random initial state"""
+        # If the "randomization" flag is 1, then sample the masses from the uniform distributions
         if self.flag == 1:
         	self.set_random_parameters()
         qpos = self.init_qpos + self.np_random.uniform(low=-.005, high=.005, size=self.model.nq)
