@@ -36,3 +36,17 @@ Each directory contains the implementation of a different algorithm as requested
 Apart from the already-provided files, here there are two new implementation of `custom_hopper.py`.
 * `custom_hopper_random.py` contains the methods for the standard domain randomization using uniform distribution for the masses. It can be used as `custom_hopper.py` if the value of `flag = 0`. To enable the domain randomization, set `flag = 1` or leave it as it is since it is the default option. It retrieves the values for sampling the masses from the uniform distributions from `masse1.csv`, `masse2.csv`, `masse3.csv`.
 * `custom_hopper_simopt.py` is similar to `custom_hopper_random.py`. The main difference it that in this case the domain randomization is performed by means of a normal distribution over the masses. It retrieves the values for sampling the masses from the normal distributions from `distributions.csv`.
+
+## How to run the code
+The procedure to run **Reinforce, Actor Critic, PPO, TRPO** is always the same: 
+1. open the *"train_"* and *"test_"* files and comment/uncomment the environment (source vs target) on which you want to train (respectively test) the model;
+2. run the file starting with *"train_"* and, once it has concluded and saved the model with the *.mdl* extension, 
+3. run the file starting with *"test_"* to reproduce what was described in the report.
+
+To run **TRPO with Domain Randomization**:
+1. open the *"train_"* and *"test_"* files and comment/uncomment the environment (source vs target) on which you want to train (respectively test) the model;
+2. open the `custom_hopper_random.py` in **env** and select the file on which you want to train the model among `masse1.csv`, `masse2.csv`, `masse3.csv` by simply changing the name of the file;
+3. run the file starting with *"train_"* and, once it has concluded and saved the model with the *.mdl* extension, 
+4. run the file starting with *"test_"* to reproduce what was described in the report.
+
+Finally, to run **SimOpt**, simply run `simopt.py`. At the end, check the `distributions.csv` file to understand which are the most suitable values for mean and variance for each mass in order to reduce the reality gap.
