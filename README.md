@@ -45,7 +45,7 @@ The procedure to run **Reinforce, Actor Critic, PPO, TRPO** is always the same:
 
 To run **TRPO with Domain Randomization**:
 1. open the *"train_"* and *"test_"* files and comment/uncomment the environment (source vs target) on which you want to train (respectively test) the model;
-2. open the `custom_hopper_random.py` in **env** and select the file on which you want to train the model among `masse1.csv`, `masse2.csv`, `masse3.csv` by simply changing the name of the file;
+2. open the `custom_hopper_random.py` in **env** and select the distributions on which you want to train the model among the files `masse1.csv`, `masse2.csv`, `masse3.csv` by simply changing the name of the file;
 3. run the file starting with *"train_"* and, once it has concluded and saved the model with the *.mdl* extension, 
 4. run the file starting with *"test_"* to reproduce what was described in the report.
 
