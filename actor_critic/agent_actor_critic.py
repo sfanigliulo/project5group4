@@ -112,7 +112,7 @@ class Agent(object):
         
         target_reward = []
         for el in range(len(rewards)):
-	        target_reward.append(rewards[el] + self.gamma*x_critic_next_state[el])
+	        target_reward.append(rewards[el] + self.alpha*self.gamma*x_critic_next_state[el])
         target_reward = torch.tensor(target_reward).reshape(x_critic.shape)
         advantage = target_reward - x_critic
         
