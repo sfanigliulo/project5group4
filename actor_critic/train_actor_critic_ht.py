@@ -1,7 +1,8 @@
 import torch
 import gym
 import argparse
-
+import sys
+sys.path.append('../')
 from env.custom_hopper import *
 from agent_actor_critic import Actor, Critic, Agent
 from sklearn.model_selection import ParameterGrid
